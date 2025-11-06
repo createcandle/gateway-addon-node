@@ -38,6 +38,11 @@
     "prettier": "^2.2.1",
     "typescript": "^4.2.4"
   },
+  "overrides": {
+    "sqlite3": {
+      "node-gyp": "11.x"
+    },
+  },
   "files": [
     "LICENSE",
     "lib",
