@@ -197,6 +197,7 @@ export class Property<T extends Any> {
         return;
       }
 
+      this.lastOrigin = origin;
       const numberValue = <number>(<unknown>value);
 
       if (typeof this.minimum !== 'undefined' && numberValue < this.minimum) {
