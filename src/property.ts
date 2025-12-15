@@ -53,12 +53,14 @@ export class Property<T extends Any> {
 
   private prevGetValue?: T;
 
+  private lastorigin?: string;
+
   constructor(device: Device, name: string, propertyDescr: PropertySchema) {
     this.device = device;
 
     this.name = name;
 
-    this.lastOrigin = null;
+    this.lastOrigin = "";
 
     // The propertyDescr argument used to be the 'type' string, so we add an
     // assertion here to notify anybody who has an older plugin.
