@@ -58,6 +58,8 @@ export class Property<T extends Any> {
 
     this.name = name;
 
+    this.lastOrigin = null;
+
     // The propertyDescr argument used to be the 'type' string, so we add an
     // assertion here to notify anybody who has an older plugin.
     assert.equal(
