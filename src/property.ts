@@ -53,7 +53,7 @@ export class Property<T extends Any> {
 
   private prevGetValue?: T;
 
-  private lastorigin?: string;
+  private lastOrigin?: string;
 
   constructor(device: Device, name: string, propertyDescr: PropertySchema) {
     this.device = device;
