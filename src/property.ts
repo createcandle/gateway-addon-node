@@ -53,14 +53,14 @@ export class Property<T extends Any> {
 
   private prevGetValue?: T;
 
-  private lastOrigin?: Any;
+  private lastMeta?: Any;
 
   constructor(device: Device, name: string, propertyDescr: PropertySchema) {
     this.device = device;
 
     this.name = name;
 
-    this.lastOrigin = null;
+    this.lastMeta = null;
 
     // The propertyDescr argument used to be the 'type' string, so we add an
     // assertion here to notify anybody who has an older plugin.
@@ -194,14 +194,14 @@ export class Property<T extends Any> {
    * It is anticipated that this method will most likely be overridden
    * by a derived class.
    */
-  setValue(value: T, meta?: any): Promise<T> {
+  setValue(value: T, meta?: Any): Promise<T> {
     return new Promise((resolve, reject) => {
       if (this.readOnly) {
         reject('Read-only property');
         return;
       }
 
-      this.lastOrigin = origin;
+      this.lastMeta = meta;
       const numberValue = <number>(<unknown>value);
 
       if (typeof this.minimum !== 'undefined' && numberValue < this.minimum) {
