@@ -53,14 +53,14 @@ export class Property<T extends Any> {
 
   private prevGetValue?: T;
 
-  private lastOrigin?: string;
+  private lastOrigin?: Any;
 
   constructor(device: Device, name: string, propertyDescr: PropertySchema) {
     this.device = device;
 
     this.name = name;
 
-    this.lastOrigin = "";
+    this.lastOrigin = null;
 
     // The propertyDescr argument used to be the 'type' string, so we add an
     // assertion here to notify anybody who has an older plugin.
@@ -194,7 +194,7 @@ export class Property<T extends Any> {
    * It is anticipated that this method will most likely be overridden
    * by a derived class.
    */
-  setValue(value: T, origin?: any): Promise<T> {
+  setValue(value: T, meta?: any): Promise<T> {
     return new Promise((resolve, reject) => {
       if (this.readOnly) {
         reject('Read-only property');
