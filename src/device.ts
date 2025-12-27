@@ -269,10 +269,10 @@ export class Device {
    * @note it is possible that the updated value doesn't match
    * the value passed in.
    */
-  setProperty(propertyName: string, value: Any): Promise<Any> {
+  setProperty(propertyName: string, value: Any, meta: Any): Promise<Any> {
     const property = this.findProperty(propertyName);
     if (property) {
-      return property.setValue(value);
+      return property.setValue(value, meta);
     }
 
     return Promise.reject(`Property "${propertyName}" not found`);
