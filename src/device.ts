@@ -272,6 +272,9 @@ export class Device {
   setProperty(propertyName: string, value: Any, meta: Any): Promise<Any> {
     const property = this.findProperty(propertyName);
     if (property) {
+      if (meta) {
+        console.log("gateway-addon-node: setProperty: meta: ", meta);
+      }
       return property.setValue(value, meta);
     }
 
