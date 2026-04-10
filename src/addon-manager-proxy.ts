@@ -442,7 +442,7 @@ export class AddonManagerProxy extends EventEmitter {
         const property = device.findProperty(propertyName);
         if (property) {
           if(property.setValue.length == 2 || ('' + property.setValue).indexOf('(value, meta') != -1){
-            console.log("addon-manager-proxy: property's set_value function can handle meta data"):
+            console.log("addon-manager-proxy: property's set_value function can handle meta data");
             property
             .setValue(propertyValue,propertyMeta)
             .then(() => {
@@ -477,7 +477,7 @@ export class AddonManagerProxy extends EventEmitter {
             });
           }
           else{
-            console.log("addon-manager-proxy: property's set_value function seems unable to handle meta data"):
+            console.log("addon-manager-proxy: property's set_value function seems unable to handle meta data");
             property
             .setValue(propertyValue)
             .then(() => {
