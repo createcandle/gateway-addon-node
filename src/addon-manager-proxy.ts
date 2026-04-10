@@ -438,9 +438,47 @@ export class AddonManagerProxy extends EventEmitter {
         const msg = <DeviceSetPropertyCommand>genericMsg;
         const propertyName = msg.data.propertyName;
         const propertyValue = msg.data.propertyValue;
+        const propertyMeta = msg.data.propertyMeta || null;
         const property = device.findProperty(propertyName);
         if (property) {
-          property
+          if(property.setValue.length == 2 || ('' + property.setValue).indexOf('(value, meta') != -1){
+            console.log("addon-manager-proxy: property's set_value function can handle meta data"):
+            property
+            .setValue(propertyValue,propertyMeta)
+            .then(() => {
+              if (property.isFireAndForget()) {
+                // This property doesn't send propertyChanged notifications,
+                // so we fake one.
+                this.sendPropertyChangedNotification(property);
+              } else {
+                // We should get a propertyChanged notification thru
+                // the normal channels, so don't sent another one here.
+                // We don't really need to do anything.
+              }
+            })
+            .catch((err) => {
+              // Something bad happened. The gateway is still
+              // expecting a reply, so we report the error
+              // and just send whatever the current value is.
+              console.error(
+                'AddonManagerProxy: Failed to setProperty with meta support',
+                propertyName,
+                'to',
+                propertyValue,
+                'with meta',
+                propertyMeta,
+                'for device:',
+                deviceId
+              );
+              if (err) {
+                console.error(err);
+              }
+              this.sendPropertyChangedNotification(property);
+            });
+          }
+          else{
+            console.log("addon-manager-proxy: property's set_value function seems unable to handle meta data"):
+            property
             .setValue(propertyValue)
             .then(() => {
               if (property.isFireAndForget()) {
@@ -458,10 +496,12 @@ export class AddonManagerProxy extends EventEmitter {
               // expecting a reply, so we report the error
               // and just send whatever the current value is.
               console.error(
-                'AddonManagerProxy: Failed to setProperty',
+                'AddonManagerProxy: Failed to setProperty without meta support',
                 propertyName,
                 'to',
                 propertyValue,
+                'with ignored meta',
+                propertyMeta,
                 'for device:',
                 deviceId
               );
@@ -470,6 +510,8 @@ export class AddonManagerProxy extends EventEmitter {
               }
               this.sendPropertyChangedNotification(property);
             });
+          }
+          
         } else {
           console.error('AddonManagerProxy: Unknown property:', propertyName);
         }
