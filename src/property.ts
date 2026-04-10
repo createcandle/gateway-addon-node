@@ -195,7 +195,7 @@ export class Property<T extends Any> {
    * by a derived class.
    */
   //setValue(value: T, meta?: Any): Promise<T> {
-  setValue(value: T, meta=null: Any): Promise<T> {
+  setValue(value: T, meta = null): Promise<T> {
     return new Promise((resolve, reject) => {
       if (this.readOnly) {
         reject('Read-only property');
