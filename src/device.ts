@@ -275,7 +275,12 @@ export class Device {
       if (meta) {
         console.log("gateway-addon-node: setProperty: meta: ", meta);
       }
-      return property.setValue(value, meta);
+      if(property.setValue.length == 2 || ("" + property.setValue).indexOf('value, meta') != -1){
+        return property.setValue(value, meta);
+      }
+      else{
+        return property.setValue(value);
+      }
     }
 
     return Promise.reject(`Property "${propertyName}" not found`);
